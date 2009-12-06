@@ -1,0 +1,53 @@
+<html>
+<head>
+<script src="jquery.js"></script>
+<script src="md5.js"></script>
+<script src="rtm.js"></script>
+
+<script>
+
+var pollInterval = 1000 * 60;
+var t; // timer id
+
+function setBadgeText(text) {
+	chrome.browserAction.setBadgeBackgroundColor({color:[50, 50, 255, 255]});
+	chrome.browserAction.setBadgeText({text:text});
+}
+
+function init() {
+	startRequest();
+}
+
+function startRequest() {
+	
+	if (localStorage['badge'] == 'true') {
+		var filter = 'dueBefore:tomorrow';
+		if (localStorage['style'] == 'custom') {
+			if (localStorage['customFilter'] != 'undefined') {
+				filter = localStorage['customFilter'];
+			}
+		}
+		else if (localStorage['style'] == 'all'){
+			filter = '';
+		}
+
+		rtmIncompleteTasks(filter, function(numTasks) {
+			setBadgeText(numTasks+'');
+		});
+	}
+	else {
+		setBadgeText('');
+	}
+	
+	t = window.setTimeout(startRequest, pollInterval);
+}
+
+function stopRequest() {
+	windows.clearTimeout(t);
+}
+
+</script>
+</head>
+<body onload='init()'>
+</body>
+</html>

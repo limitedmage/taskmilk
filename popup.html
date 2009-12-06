@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<style>
+	body {width:400px; height:400px;}
+</style>
+<script src='jquery.js'></script>
+
+<script>
+$(document).ready(function() {
+
+	var popup = localStorage['popup'];
+
+	if (popup == 'undefined') popup = 'igoogle';
+	
+	var frame = document.createElement('iframe');
+	frame.setAttribute('width', '100%');
+	frame.setAttribute('height', '100%');
+	frame.setAttribute('frameborder', '0');
+	
+	if (popup == 'gmail') {
+		$('body').height(300).width(200);
+		frame.setAttribute('src', 'http://www.rememberthemilk.com/services/modules/gmail/');
+	}
+	else if (popup == 'iphone') {
+		$('body').height(480).width(320);
+		frame.setAttribute('src', 'http://i.rememberthemilk.com/');
+	}
+	else if (popup == 'page') {
+		// no popup, open rtm page
+		chrome.tabs.create({url: 'http://www.rememberthemilk.com/'});
+		window.close();
+	}
+	else { // igoogle and default
+		$('body').height(400).width(400);
+		frame.setAttribute('src', 'http://www.rememberthemilk.com/services/modules/googleig/');
+	}
+	
+	
+	document.body.appendChild(frame);
+});
+</script>
+
+</head>
+<body>
+</body>
