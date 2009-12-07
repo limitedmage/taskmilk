@@ -18,11 +18,7 @@ var def_popup = 'igoogle';
 var def_badge = false;
 var def_style = 'today';
 
-var def_styleToFilter = {
-	today: 'dueBefore:tomorrow',
-	all: '',
-	custom: ''
-};
+var def_customFilter = '';
 
 // current options
 var popup;
@@ -56,7 +52,7 @@ function loadOptions() {
 
 	customFilter = localStorage['customFilter'];
 	console.log(localStorage['customFilter']);
-	if (customFilter == 'undefined') customFilter = def_styleToFilter.custom;
+	if (customFilter == 'undefined') customFilter = def_customFilter;
 	$('#customfilter').val(customFilter);
 }
 
@@ -107,7 +103,7 @@ $(document).ready(function() {
 		$('#noauth').hide();
 	});
 	
-	if (localStorage['token'] != 'undefined') {
+	if (localStorage['token'] != 'undefined' && localStorage['user_username'] != 'undefined') {
 		$('#message').text("Authenticated as " + localStorage['user_username']);
 		$('#comp').hide();
 		$('#auth').hide();

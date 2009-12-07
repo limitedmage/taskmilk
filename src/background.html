@@ -32,7 +32,10 @@ function startRequest() {
 		}
 
 		rtmIncompleteTasks(filter, function(numTasks) {
-			setBadgeText(numTasks+'');
+			if (numTasks != 0)
+				setBadgeText(numTasks+'');
+			else
+				setBadgeText('');
 		});
 	}
 	else {

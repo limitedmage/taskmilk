@@ -152,13 +152,23 @@ function rtmIncompleteTasks(cus_filter, callback) {
 		rtmCall(params, function(rsp) {
 			var lists = rsp.tasks.list;
 			var numTasks = 0;
-			
-			for (var i in lists) {
-				var series = lists[i].taskseries;
-				if (series.constructor.toString().match(/array/i))
-					numTasks += lists[i].taskseries.length;
-				else
-					numTasks += 1;
+			if (lists != undefined) {
+				if (lists.constructor.toString().match(/array/i)) {
+					for (var i in lists) {
+						var series = lists[i].taskseries;
+						if (series.constructor.toString().match(/array/i))
+							numTasks += series.length;
+						else
+							numTasks += 1;
+					}
+				}
+				else {
+					var series = lists.taskseries;
+					if (series.constructor.toString().match(/array/i))
+						numTasks += series.length;
+					else
+						numTasks += 1;
+				}
 			}
 			
 			callback(numTasks);
