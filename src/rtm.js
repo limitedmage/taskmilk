@@ -28,11 +28,11 @@ function saveData() {
 }
 
 function eraseData() {
-	localStorage['frob'] = undefined;
-	localStorage['token'] = undefined;
-	localStorage['user_id'] = undefined;
-	localStorage['user_username'] = undefined;
-	localStorage['user_fullname'] = undefined;
+	localStorage.removeItem('frob');
+	localStorage.removeItem('token');
+	localStorage.removeItem('user_id');
+	localStorage.removeItem('user_username');
+	localStorage.removeItem('user_fullname');
 }
 
 function rtmCall(params, callback) {
@@ -64,7 +64,7 @@ function rtmGetFrob(callback) {
 			method: "rtm.auth.getFrob"
 		}
 		
-		rtmCall(params, function(rsp) {
+		rtmCall(params, function(rsp) {			
 			frob = rsp.frob;
 			saveData();
 			console.log('frob: ' + frob);

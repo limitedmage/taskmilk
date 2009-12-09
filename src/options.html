@@ -26,6 +26,15 @@ var badge;
 var style;
 var customFilter;
 
+function eraseOptions() {
+	eraseData();
+	
+	localStorage.removeItem('popup');
+	localStorage.removeItem('badge');
+	localStorage.removeItem('style');
+	localStorage.removeItem('customFilter');
+}
+
 
 function loadOptions() {
 	popup = localStorage['popup'];
@@ -79,6 +88,7 @@ $(document).ready(function() {
 	
 	$('#auth').live('click', function() {
 		$('#message').text('Click the Authentication Complete button after confirming authentication to complete the process.');
+		eraseData();
 		rtmShowAuth();
 		$('#comp').show();
 		$('#auth').hide();
@@ -103,7 +113,8 @@ $(document).ready(function() {
 		$('#noauth').hide();
 	});
 	
-	if (localStorage['token'] != 'undefined' && localStorage['user_username'] != 'undefined') {
+	if (localStorage['token'] != 'undefined' && typeof(localStorage['token']) != 'undefined'
+	    && localStorage['user_username'] != 'undefined' && typeof(localStorage['user_username']) != 'undefined') {
 		$('#message').text("Authenticated as " + localStorage['user_username']);
 		$('#comp').hide();
 		$('#auth').hide();
@@ -133,6 +144,8 @@ $(document).ready(function() {
 		customFilter = $(this).val();
 		saveOptions();
 	});
+	
+	$('#erase').live('click', function() { eraseOptions(); location.reload();});
 });
 
 </script>
@@ -149,7 +162,7 @@ $(document).ready(function() {
 	<p>
 		<input type='radio' name='popup' value='igoogle' id='igoogle' /><label for='igoogle'>iGoogle <a href='http://www.rememberthemilk.com/services/igoogle/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='gmail' id='gmail' /><label for='gmail'>Gmail <a href='http://www.rememberthemilk.com/services/gmail/gadget/' target='_blank'>(more info)</a></label><br />
-		<input type='radio' name='popup' value='iphone' id='iphone' /><label for='gmail'>iPhone (requieres pro account) <a href='https://www.rememberthemilk.com/services/iphone/web/' target='_blank'>(more info)</a></label><br />
+		<input type='radio' name='popup' value='iphone' id='iphone' /><label for='iphone'>iPhone (requieres pro account) <a href='https://www.rememberthemilk.com/services/iphone/web/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='page' id='page' /><label for='page'>No popup, load Remember the Milk web page</label>
 	</p>
 	
@@ -173,7 +186,34 @@ $(document).ready(function() {
 			<input type='text' name='customfilter' id='customfilter' value=''/>
 		</p>
 	</div>
-
+	
+	<h3>Erase Options</h3>
+	<p>
+		<button id='erase'>Erase all options</button><br />
+	</p>
+	
+	
+	<hr />
+	
+	<div id='credits'>
+	<h3>Credits and License</h3>
+	<p>
+		<strong>Author</strong><br /> 
+		Juliana Pe&ntilde;a <br />
+		<a href='http://julianapena.com'>http://julianapena.com</a><br />
+		<a href='http://twitter.com/limitedmage'>@limitedmage</a>
+	</p>
+	<p>
+		<strong>Icon</strong><br />
+		<a href='http://der-alter-mann.deviantart.com/art/The-Milkbox-80625395'>Der-Alter-Mann</a><br />
+		Icon under a <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/'>Creative Commons Attribution-Noncommercial-No Derivative 
+Works 3.0 License</a>.
+	</p>
+	<p>
+		<strong>Code</strong><br />
+		This extension is open source under the <a href='http://creativecommons.org/licenses/GPL/2.0/'>GPLv2</a>. More info at <a href='http://code.google.com/p/chromemilk/'>ChromeMilk's Google Code page</a>.
+	</p>
+	</div>
 </div>
 
 </body>
