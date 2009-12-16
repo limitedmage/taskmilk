@@ -1,9 +1,9 @@
 {
 	"name": "ChromeMilk",
 	
-	"version": "0.9.2",
+	"version": "0.9.4",
 	
-	"description": "A Remember the Milk extension for Google Chrome",
+	"description": "Access your Remember the Milk tasks right from your Google Chrome toolbar",
 	
 	"browser_action": {
 		"default_icon": "icon19.png",

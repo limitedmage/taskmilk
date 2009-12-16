@@ -54,7 +54,7 @@ function rtmCall(params, callback) {
 	);
 }
 
-function rtmGetFrob(callback) {
+function rtmGetFrob(successCallback, failCallback) {
 	loadData();
 
 	// if there is no frob, request one
@@ -64,62 +64,84 @@ function rtmGetFrob(callback) {
 			method: "rtm.auth.getFrob"
 		}
 		
-		rtmCall(params, function(rsp) {			
-			frob = rsp.frob;
-			saveData();
-			console.log('frob: ' + frob);
-			callback(frob);
+		rtmCall(params, function(rsp) {
+			if (rsp.stat == 'fail') {
+				failCallback(rsp);
+			}
+			else {
+				frob = rsp.frob;
+				saveData();
+				console.log('frob: ' + frob);
+				successCallback(frob);
+			}
 		});
 	}
 	else {
 		console.log('using existing frob: ' + frob);
-		callback(frob)
+		successCallback(frob);
 	}
 }
 
-function rtmShowAuth() {
+function rtmShowAuth(successCallback, failCallback) {
 
-	rtmGetFrob(function(frob) {
-		var params = {
-			api_key: api_key,
-			frob: frob,
-			perms: 'read'
-		};
-		rtmSign(params);
-		
-		var url = auth_url + 
-		"?api_key=" + params.api_key + 
-		"&frob=" + params.frob + 
-		"&perms=" + params.perms + 
-		"&api_sig=" + params.api_sig;
-		
-		chrome.tabs.create({url: url});
-	});
+	rtmGetFrob(
+		function(frob) {
+			var params = {
+				api_key: api_key,
+				frob: frob,
+				perms: 'read'
+			};
+			rtmSign(params);
+			
+			var url = auth_url + 
+			"?api_key=" + params.api_key + 
+			"&frob=" + params.frob + 
+			"&perms=" + params.perms + 
+			"&api_sig=" + params.api_sig;
+			
+			//chrome.tabs.create({url: url});
+			
+			successCallback(url);
+		},
+		function(rsp) {
+			failCallback(rsp);
+		}
+	);
 }
 
-function rtmGetToken(callback) {
+function rtmGetToken(successCallback, failCallback) {
 	loadData();
 
 	if (token == 'undefined' || typeof(token) == 'undefined') {
-		rtmGetFrob(function(frob) {
-			var params = {
-				method: 'rtm.auth.getToken',
-				frob: frob
-			};
-			console.log('getting token');
-			rtmCall(params, function(rsp) {
-				token = rsp.auth.token;
-				console.log('token: ' + token);
-				user_id = rsp.auth.user.id;
-				user_username = rsp.auth.user.username;
-				user_fullname = rsp.auth.user.fullname;
-				saveData();
-				callback();
-			});
-		});
+		rtmGetFrob(
+			function(frob) {
+				var params = {
+					method: 'rtm.auth.getToken',
+					frob: frob
+				};
+				console.log('getting token');
+				rtmCall(params, function(rsp) {
+					if (rsp.stat == 'fail') {
+						failCallback(rsp);
+					}
+					else {
+						token = rsp.auth.token;
+						console.log('token: ' + token);
+						user_id = rsp.auth.user.id;
+						user_username = rsp.auth.user.username;
+						user_fullname = rsp.auth.user.fullname;
+						saveData();
+						successCallback();
+					}
+				});
+			},
+			function(rsp) {
+				failCallback(rsp);
+			}
+		);
 	}
 	else {
-		callback();
+		successCallback();
 	}
 }
 
@@ -140,38 +162,50 @@ function rtmSign(args) {
 	args.api_sig = sig;
 }
 
-function rtmIncompleteTasks(cus_filter, callback) {
-	rtmGetToken(function() {
-		var params = {
-			method: 'rtm.tasks.getList'
-		};
-		
-		if (cus_filter != '') params.filter = filter + ' AND ' + cus_filter;
-		else params.filter = filter;
-		
-		rtmCall(params, function(rsp) {
-			var lists = rsp.tasks.list;
-			var numTasks = 0;
-			if (lists != undefined) {
-				if (lists.constructor.toString().match(/array/i)) {
-					for (var i in lists) {
-						var series = lists[i].taskseries;
-						if (series.constructor.toString().match(/array/i))
-							numTasks += series.length;
-						else
-							numTasks += 1;
-					}
-				}
-				else {
-					var series = lists.taskseries;
-					if (series.constructor.toString().match(/array/i))
-						numTasks += series.length;
-					else
-						numTasks += 1;
-				}
-			}
+function rtmIncompleteTasks(cus_filter, successCallback, failCallback) {
+	rtmGetToken(
+		function() {
+			var params = {
+				method: 'rtm.tasks.getList'
+			};
 			
-			callback(numTasks);
-		});
-	});
+			if (cus_filter != '') params.filter = filter + ' AND ' + cus_filter;
+			else params.filter = filter;
+			
+			rtmCall(
+				params, 
+				function(rsp) {
+					if (rsp.stat == 'fail') {
+						failCallback(rsp);
+					}
+					else {
+						var lists = rsp.tasks.list;
+						var numTasks = 0;
+						if (lists != undefined) {
+							if (lists.constructor.toString().match(/array/i)) {
+								for (var i in lists) {
+									var series = lists[i].taskseries;
+									if (series.constructor.toString().match(/array/i))
+										numTasks += series.length;
+									else
+										numTasks += 1;
+								}
+							}
+							else {
+								var series = lists.taskseries;
+								if (series.constructor.toString().match(/array/i))
+									numTasks += series.length;
+								else
+									numTasks += 1;
+							}
+						}
+						successCallback(numTasks);
+					}
+				}		
+			);
+		},
+		function(rsp) {
+			failCallback(rsp);
+		}
+	);
 }

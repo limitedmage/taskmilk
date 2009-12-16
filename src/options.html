@@ -3,14 +3,15 @@
 <title>ChromeMilk Options</title>
 
 <style>
-#content { width: 400px; border: blue solid 10px; margin-left:auto; margin-right:auto; padding: 5px;}
-body { font-family:sans-serif; }
+#content { width: 500px; border: #2A8ED5 solid 10px; border-radius: 10px; background: white; margin-left:auto; margin-right:auto; padding: 10px;}
+body { font-family:sans-serif; background: #DDD ;}
+#logo {float:right; background-image:url(icon128.png); width:128px; height:128px;}
+#load {display:block; text-align: center;}
 </style>
 
 <script src='md5.js'></script>
 <script src='jquery.js'></script>
 <script src='rtm.js'></script>
-
 
 <script>
 // default options
@@ -38,42 +39,37 @@ function eraseOptions() {
 
 function loadOptions() {
 	popup = localStorage['popup'];
-	console.log(localStorage['popup']);
-	if (popup == 'undefined' || (popup != 'gmail' && popup != 'igoogle' && popup != 'iphone' && popup != 'page')) popup = def_popup;
+	if (popup == 'undefined' || (popup != 'gmail' && popup != 'igoogle' && popup != 'iphone' && popup != 'page' && popup != 'mobile')) popup = def_popup;
 	
 	if (popup == 'igoogle') $('#igoogle')[0].checked = true;
 	else if (popup == 'gmail') $('#gmail')[0].checked = true;
+	else if (popup == 'mobile') $('#mobile')[0].checked = true;
 	else if (popup == 'iphone') $('#iphone')[0].checked = true;
 	else if (popup == 'page') $('#page')[0].checked = true;
 	
 	badge = localStorage['badge'] == 'true' ? true : false;
-	console.log(localStorage['badge']);
-	console.log(badge + ' ' + typeof(badge));
 	$('#badge')[0].checked = badge;
 	
 	style = localStorage['style'];
-	console.log(localStorage['style']);
 	if (style == 'undefined' || (style != 'today' && style != 'all' && style != 'custom')) style = def_style;
-	console.log(style);
 	if (style == 'today') $('#today')[0].checked = true;
 	else if (style == 'all') $('#all')[0].checked = true;
 	else if (style == 'custom') $('#custom')[0].checked = true;
 
 	customFilter = localStorage['customFilter'];
-	console.log(localStorage['customFilter']);
 	if (customFilter == 'undefined') customFilter = def_customFilter;
 	$('#customfilter').val(customFilter);
 }
 
 function saveOptions() {
 	localStorage['popup'] = popup;
-	console.log(localStorage['popup']);
 	localStorage['badge'] = String(badge);
-	console.log(localStorage['badge']);
 	localStorage['style'] = style;
-	console.log(localStorage['style']);
-	localStorage['customFilter'] = customFilter;	
-	console.log(localStorage['customFilter']);
+	localStorage['customFilter'] = customFilter;
+	
+	var bg = chrome.extension.getBackgroundPage();
+	bg.stopRequest();
+	bg.startRequest();
 }
 
 $(document).ready(function() {
@@ -85,11 +81,32 @@ $(document).ready(function() {
 	$('#comp').hide();
 	$('#auth').show();
 	$('#noauth').hide();
+	$('#load').hide();
+	
+	$('#load').ajaxStart(function() {
+		$(this).show();
+	}).ajaxStop(function() {
+		$(this).hide();
+	});
 	
 	$('#auth').live('click', function() {
-		$('#message').text('Click the Authentication Complete button after confirming authentication to complete the process.');
 		eraseData();
-		rtmShowAuth();
+		
+		rtmShowAuth(
+			function(url) {
+				chrome.tabs.create({url: url});
+				$('#message').text('Click the Authentication Complete button after confirming authentication to complete the process.');
+				$('#comp').show();
+				$('#auth').hide();
+				$('#noauth').hide();
+			},
+			function(rsp) {
+				$('#message').text('Error: ' + rsp.err.code + ' - ' + rsp.err.msg + '\nTry again.\n' + 'Click the Authenticate button. You will be taken to RTM to confirm authentication.');
+				$('#comp').hide();
+				$('#auth').show();
+				$('#noauth').hide();
+			}
+		);
 		$('#comp').show();
 		$('#auth').hide();
 		$('#noauth').hide();
@@ -97,12 +114,20 @@ $(document).ready(function() {
 	
 	$('#comp').live('click', function() {
 		
-		rtmGetToken(function() {
-			$('#message').text("Authenticated as " + user_username);
-			$('#comp').hide();
-			$('#auth').hide();
-			$('#noauth').show();
-		});
+		rtmGetToken(
+			function() {
+				$('#message').text("Authenticated as " + user_username);
+				$('#comp').hide();
+				$('#auth').hide();
+				$('#noauth').show();
+			},
+			function(rsp) {
+				$('#message').text('Error: ' + rsp.err.code + ' - ' + rsp.err.msg + '\nTry again.\n' + 'Click the Authenticate button. You will be taken to RTM to confirm authentication.');
+				$('#comp').hide();
+				$('#auth').show();
+				$('#noauth').hide();
+			}
+		);
 	});
 	
 	$('#noauth').live('click', function() {
@@ -113,8 +138,11 @@ $(document).ready(function() {
 		$('#noauth').hide();
 	});
 	
-	if (localStorage['token'] != 'undefined' && typeof(localStorage['token']) != 'undefined'
-	    && localStorage['user_username'] != 'undefined' && typeof(localStorage['user_username']) != 'undefined') {
+	if (localStorage['token'] != 'undefined' 
+	    && typeof(localStorage['token']) != 'undefined'
+	    && localStorage['user_username'] != 'undefined' 
+	    && typeof(localStorage['user_username']) != 'undefined') {
+	    
 		$('#message').text("Authenticated as " + localStorage['user_username']);
 		$('#comp').hide();
 		$('#auth').hide();
@@ -133,7 +161,6 @@ $(document).ready(function() {
 		if ($(this)[0].checked) popup = $(this).val();
 		saveOptions();
 	});
-	
 	
 	$('[name=style]').live('change', function() {
 		if ($(this)[0].checked) style = $(this).val();
@@ -154,15 +181,17 @@ $(document).ready(function() {
 <body>
 
 <div id='content'>
+	<span id='logo'></span>
 	<h1>ChromeMilk options</h1>
 	
 	<p>Options are saved automatically.</p>
 	
-	<h3>Popup style</h3>
+	<h3>Popup type</h3>
 	<p>
 		<input type='radio' name='popup' value='igoogle' id='igoogle' /><label for='igoogle'>iGoogle <a href='http://www.rememberthemilk.com/services/igoogle/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='gmail' id='gmail' /><label for='gmail'>Gmail <a href='http://www.rememberthemilk.com/services/gmail/gadget/' target='_blank'>(more info)</a></label><br />
-		<input type='radio' name='popup' value='iphone' id='iphone' /><label for='iphone'>iPhone (requieres pro account) <a href='https://www.rememberthemilk.com/services/iphone/web/' target='_blank'>(more info)</a></label><br />
+		<input type='radio' name='popup' value='mobile' id='mobile' /><label for='mobile'>Mobile <a href='https://www.rememberthemilk.com/services/mobile/' target='_blank'>(more info)</a></label><br />
+		<input type='radio' name='popup' value='iphone' id='iphone' /><label for='iphone'>iPhone (requires pro account) <a href='http://www.rememberthemilk.com/services/iphone/web/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='page' id='page' /><label for='page'>No popup, load Remember the Milk web page</label>
 	</p>
 	
@@ -171,14 +200,17 @@ $(document).ready(function() {
 		<input type='checkbox' name='badge' id='badge' /><label for='badge'>Show icon badge (requires authentication)</label>
 	</p>
 	<div id='badge-options'>
-		<p>Badge is updated once every minute. Changes to these options won't appear immediately.</p>
-		<h4>Authenticate</h4>
+		<p>Badge is updated once every minute.</p>
+		<h4>Authentication</h4>
 		<p id='message'>Click the Authenticate button. You will be taken to RTM to confirm authentication.</p>
+		
 		<button id='auth'>Authenticate</button>
 		<button id='comp'>Authentication Complete</button>
-		<button id='noauth'>Remove Authentication</button>
+		<button id='noauth'>Remove Authentication</button><br />
+		<div id='load'><img alt='Loading...' title='Loading...' src='load.gif' /></div>
 		
-		<h4>Badge style</h4>
+		
+		<h4>Badge count</h4>
 		<p>
 			<input type='radio' name='style' value='today'  id='today' /><label for='today'>Due today</label><br />
 			<input type='radio' name='style' value='all'    id='all'   /><label for='all'>All incomplete</label><br />
