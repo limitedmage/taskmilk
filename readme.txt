@@ -8,7 +8,7 @@ Go to the options page to customize the extension to your liking.
 
 Known Issues
 
-* Popup closes when clicking a dropdown box. This is a known bug in Chromium: http://code.google.com/p/chromium/issues/detail?id=28110 but it is marked as fixed, so this should be fixed in Chrome builds soon. A workaround is to use tab and the arrow keys instead of the mouse to navigate the dropdown box. (Thanks, Tobeon!)
+* Popup closes when clicking a dropdown box. This is a known bug in Chromium: http://code.google.com/p/chromium/issues/detail?id=28110 and has been fixed in Chrome version 4.0.266.0, the latest dev build as of 12 Dec 2009. Go to Wrench menu > About Google Chrome to upgrade to the latest version.
 * iPhone version doesn't log in and the password isn't obscured when using Tab to type the password. The workaround is to use the mouse to select the password input box instead. This is an issue of the Remember the Milk iPhone web app itself and I cannot fix this.
 * Sometimes authentication will fail. Erase all settings and try to authenticate again.
 
@@ -16,7 +16,7 @@ This extension is still under heavy development and may be buggy. Please report 
 
 Changelog
 
-0.9.4
+0.9.4 - 16 Dec 2009
 * Reverted permissions back to only tabs and api.rememberthemilk.com
 * Added error detection for authentication
 
@@ -53,3 +53,4 @@ for the great icon (Icon under a Creative Commons Attribution-Noncommercial-No D
 
 This extension is open source under the GPLv2.
 http://creativecommons.org/licenses/GPL/2.0/
+Source code is available at http://code.google.com/p/chromemilk/
