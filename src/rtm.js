@@ -1,16 +1,20 @@
+// constant data for authentication
 var auth_url = 'http://api.rememberthemilk.com/services/auth/';
 var req_url = 'http://api.rememberthemilk.com/services/rest/';
 var api_key  = '46f829c619762a0f73e8ccda88dc00e3';
 var shared_secret = '001d7cf1f33f985d';
 
+// currently loaded options
 var frob;
 var token;
 var user_id;
 var user_username;
 var user_fullname;
 
+// default filter
 var filter = 'status:incomplete';
 
+// loads data in localStorage
 function loadData() {
 	frob = localStorage['frob'];
 	token = localStorage['token'];
@@ -19,6 +23,7 @@ function loadData() {
 	user_fullname = localStorage['user_fullname'];
 }
 
+// save data to localStorage
 function saveData() {
 	localStorage['frob'] = frob;
 	localStorage['token'] = token;
@@ -27,6 +32,7 @@ function saveData() {
 	localStorage['user_fullname'] = user_fullname;
 }
 
+// erases data from localStorage
 function eraseData() {
 	localStorage.removeItem('frob');
 	localStorage.removeItem('token');
@@ -35,6 +41,11 @@ function eraseData() {
 	localStorage.removeItem('user_fullname');
 }
 
+/**
+ * Calls the RTM REST API.
+ * params: an object with parameters to send. API key, JSON format and token are added.
+ * callback: a function(rsp) where the response will be sent.
+ */
 function rtmCall(params, callback) {
 	params.format = 'json';
 	params.api_key = api_key;
@@ -54,6 +65,11 @@ function rtmCall(params, callback) {
 	);
 }
 
+/**
+ * Queries a frob from the RTM API.
+ * successCallback: a function(frob) where the frob will be sent.
+ * failCallback:    a function(rsp) where the failed response will be sent.
+ */
 function rtmGetFrob(successCallback, failCallback) {
 	loadData();
 
@@ -82,6 +98,11 @@ function rtmGetFrob(successCallback, failCallback) {
 	}
 }
 
+/**
+ * Creates an authentication URL for ChromeMilk
+ * successCallback: a function(url) where the created URL will be sent.
+ * failCallback:    a function(rsp) where the failed response will be sent.
+ */
 function rtmShowAuth(successCallback, failCallback) {
 
 	rtmGetFrob(
@@ -109,6 +130,11 @@ function rtmShowAuth(successCallback, failCallback) {
 	);
 }
 
+/**
+ * Aquires an authentication token
+ * successCallback: a function() to call when token is aquired.
+ * failCallback:    a function(rsp) where the failed response will be sent.
+ */
 function rtmGetToken(successCallback, failCallback) {
 	loadData();
 
@@ -145,6 +171,9 @@ function rtmGetToken(successCallback, failCallback) {
 	}
 }
 
+/**
+ * Signs a list of parameters to send to RTM
+ */
 function rtmSign(args) {
 	var arr = [];
 	var str = shared_secret;
@@ -162,6 +191,12 @@ function rtmSign(args) {
 	args.api_sig = sig;
 }
 
+/**
+ * Queries for the number of incomplete tasks
+ * cus_filter:      a custom filter to use in conjunction with the default one
+ * successCallback: a function(numTasks) to send the number of tasks to
+ * failCallback:    a function(rsp) where the failed response will be sent
+ */
 function rtmIncompleteTasks(cus_filter, successCallback, failCallback) {
 	rtmGetToken(
 		function() {
@@ -209,3 +244,5 @@ function rtmIncompleteTasks(cus_filter, successCallback, failCallback) {
 		}
 	);
 }
+
+

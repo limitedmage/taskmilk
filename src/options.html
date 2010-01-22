@@ -27,6 +27,9 @@ var badge;
 var style;
 var customFilter;
 
+/**
+ * Erases all options stored in local storage
+ */
 function eraseOptions() {
 	eraseData();
 	
@@ -36,7 +39,10 @@ function eraseOptions() {
 	localStorage.removeItem('customFilter');
 }
 
-
+/**
+ * Loads options stored in local storage, or loads default ones if
+ * stored options do not exist or are not valid
+ */
 function loadOptions() {
 	popup = localStorage['popup'];
 	if (popup == 'undefined' || (popup != 'gmail' && popup != 'igoogle' && popup != 'iphone' && popup != 'page' && popup != 'mobile')) popup = def_popup;
@@ -61,6 +67,9 @@ function loadOptions() {
 	$('#customfilter').val(customFilter);
 }
 
+/**
+ * Saves current options to local storage
+ */
 function saveOptions() {
 	localStorage['popup'] = popup;
 	localStorage['badge'] = String(badge);
@@ -200,7 +209,7 @@ $(document).ready(function() {
 		<input type='checkbox' name='badge' id='badge' /><label for='badge'>Show icon badge (requires authentication)</label>
 	</p>
 	<div id='badge-options'>
-		<p>Badge is updated once every minute.</p>
+		<p>Badge is updated once every five minutes and when the icon is clicked.</p>
 		<h4>Authentication</h4>
 		<p id='message'>Click the Authenticate button. You will be taken to RTM to confirm authentication.</p>
 		

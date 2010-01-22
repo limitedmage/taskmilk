@@ -8,13 +8,16 @@ Go to the options page to customize the extension to your liking.
 
 Known Issues
 
-* Popup closes when clicking a dropdown box. This is a known bug in Chromium: http://code.google.com/p/chromium/issues/detail?id=28110 and has been fixed in Chrome version 4.0.266.0, the latest dev build as of 12 Dec 2009. Go to Wrench menu > About Google Chrome to upgrade to the latest version.
 * iPhone version doesn't log in and the password isn't obscured when using Tab to type the password. The workaround is to use the mouse to select the password input box instead. This is an issue of the Remember the Milk iPhone web app itself and I cannot fix this.
 * Sometimes authentication will fail. Erase all settings and try to authenticate again.
 
 This extension is still under heavy development and may be buggy. Please report any issues on the Google Code project page: http://code.google.com/p/chromemilk/issues/
 
 Changelog
+
+0.9.5 - 22 Jan 2010
+* Badge is now reloaded after clicking the icon, in addition to once a minute.
+* No more flashing popup when No Popup option is selected
 
 0.9.4 - 16 Dec 2009
 * Reverted permissions back to only tabs and api.rememberthemilk.com
