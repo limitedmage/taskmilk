@@ -204,7 +204,7 @@ function rtmIncompleteTasks(cus_filter, successCallback, failCallback) {
 				method: 'rtm.tasks.getList'
 			};
 			
-			if (cus_filter != '') params.filter = filter + ' AND ' + cus_filter;
+			if (cus_filter != '') params.filter = filter + ' AND (' + cus_filter + ')';
 			else params.filter = filter;
 			
 			rtmCall(
