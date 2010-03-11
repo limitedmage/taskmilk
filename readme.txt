@@ -15,6 +15,11 @@ This extension is still under heavy development and may be buggy. Please report 
 
 Changelog
 
+0.9.6 - 11 Mar 2010
+* New icon, by the amazing Camila González
+* Fixed a bug when using OR in the custom filter (thanks downing.c!)
+* Popups now use HTTPS instead of HTTP
+
 0.9.5 - 22 Jan 2010
 * Badge is now reloaded after clicking the icon, in addition to once a minute.
 * No more flashing popup when No Popup option is selected
@@ -51,8 +56,8 @@ Acknowledgements:
 for their awesome service and open API
 * jQuery http://jquery.com
 for the amazing JavaScript library that makes Ajax super-simple
-* Der-Alter-Mann http://der-alter-mann.deviantart.com/art/The-Milkbox-80625395
-for the great icon (Icon under a Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 License. http://creativecommons.org/licenses/by-nc-nd/3.0/)
+* Gamila González http://aconitehikaru.deviantart.com/
+for the great icon (Icon under a Creative Commons Attribution-Attribution-Share Alike 3.0 License. http://creativecommons.org/licenses/by-sa/3.0/)
 
 This extension is open source under the GPLv2.
 http://creativecommons.org/licenses/GPL/2.0/

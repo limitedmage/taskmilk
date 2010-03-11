@@ -5,7 +5,7 @@
 	body {width:400px; height:400px; font-family:sans-serif; font-size:.8em; display:none;}
 	a {color: #0060BF;}
 	
-	#openrtm {float: left; margin-bottom:5px;}
+	#chromemilk {float: left; margin-bottom:5px;}
 	#options {float: right;}
 	div a {text-decoration: none;}
 	div a:hover {text-decoration: underline;}
@@ -13,7 +13,7 @@
 	.clear {clear: both;}
 </style>
 
-<script src='jquery.js'></script>
+<script type='text/javascript' src='jquery.js'></script>
 
 <script>
 function init() {
@@ -21,18 +21,7 @@ function init() {
 	
 	if (popup == 'page') {
 		// no popup, open rtm page
-		/*getRTMTab(function (tab) {
-			if (tab) { 
-				// Try to reuse an existing RTM tab 
-				chrome.tabs.update(tab.id, {selected: true}); 
-			} 
-			else { 
-				chrome.tabs.create({url: "http://www.rememberthemilk.com"}); 
-			} 
-		});*/
-		chrome.tabs.create({url: "http://www.rememberthemilk.com"}); 
-		// Either way, we don't need the popup anymore 
-		window.close();
+		openRTMTab();
 	}
 	else {
 		document.body.style.display = 'block';
@@ -46,22 +35,22 @@ function init() {
 		if (popup == 'gmail') {
 			// open gmail gadget
 			$('body').height(300).width(200);			
-			frame.setAttribute('src', 'http://www.rememberthemilk.com/services/modules/gmail/');
+			frame.setAttribute('src', 'https://www.rememberthemilk.com/services/modules/gmail/');
 		}
 		else if (popup == 'iphone') {
 			// open iphone web app
 			$('body').height(480).width(320);
-			frame.setAttribute('src', 'http://i.rememberthemilk.com/');
+			frame.setAttribute('src', 'https://i.rememberthemilk.com/');
 		}
 		else if (popup == 'mobile') {
 			// open mobile web app
 			$('body').height(300).width(200);
-			frame.setAttribute('src', 'http://m.rememberthemilk.com/');
+			frame.setAttribute('src', 'https://m.rememberthemilk.com/');
 		}
 		else { 
 			// igoogle and default
 			$('body').height(400).width(400);
-			frame.setAttribute('src', 'http://www.rememberthemilk.com/services/modules/googleig/');
+			frame.setAttribute('src', 'https://www.rememberthemilk.com/services/modules/googleig/');
 		}
 		
 		document.body.appendChild(frame);
@@ -73,6 +62,13 @@ function init() {
 function openOptions() {
 	var optionsUrl = chrome.extension.getURL('options.html');
 	chrome.tabs.create({url: optionsUrl});
+}
+
+function openRTMTab() {
+	// create tab
+	chrome.tabs.create({url: "https://www.rememberthemilk.com"}); 
+	// Either way, we don't need the popup anymore 
+	window.close();
 }
 
 function getRTMTab(callback) {
@@ -92,8 +88,11 @@ function getRTMTab(callback) {
 
 </head>
 <body id='body' onload='init()'>
-<div id='openrtm'><a href='http://rememberthemilk.com' target='_blank'>Open RTM</a></div>
-<div id='options'><a href='javascript:openOptions()'>Options</a></div>
+<div id='chromemilk'><strong>ChromeMilk</strong></div>
+<div id='options'>
+	<a href='javascript:openOptions()' title='Open options'><img src='img/options.png' alt='Options' /></a>
+	<a href='javascript:openRTMTab()' title='Open RTM in new tab'><img src='img/external.png' alt='Open RTM' /></a>
+</div>
 
 <br class='clear' />
 </body>
