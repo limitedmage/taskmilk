@@ -19,6 +19,8 @@ Changelog
 * New icon, by the amazing Camila González
 * Fixed a bug when using OR in the custom filter (thanks downing.c!)
 * Popups now use HTTPS instead of HTTP
+* Icons to open extenions settings and RTM page added to popup.
+* When "No popup, load Remember the Milk web page" option is selected, or New Window icon is clicked, if an existing RTM tab exists, it will be selected instead of opening a new tab. (thanks Gordon Fontenot!)
 
 0.9.5 - 22 Jan 2010
 * Badge is now reloaded after clicking the icon, in addition to once a minute.

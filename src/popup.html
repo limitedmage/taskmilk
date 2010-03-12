@@ -7,8 +7,6 @@
 	
 	#chromemilk {float: left; margin-bottom:5px;}
 	#options {float: right;}
-	div a {text-decoration: none;}
-	div a:hover {text-decoration: underline;}
 	
 	.clear {clear: both;}
 </style>
@@ -65,22 +63,31 @@ function openOptions() {
 }
 
 function openRTMTab() {
-	// create tab
-	chrome.tabs.create({url: "https://www.rememberthemilk.com"}); 
-	// Either way, we don't need the popup anymore 
-	window.close();
+	getRTMTab(function(tab) { 
+		if (tab) { 
+			// Try to reuse an existing RTM tab 
+			chrome.tabs.update(tab.id, {selected: true}); 
+		} 
+		else { 
+			chrome.tabs.create({url: "http://www.rememberthemilk.com"}); 
+		} 
+		// Either way, we don't need the popup anymore 
+		window.close();
+	});
 }
 
 function getRTMTab(callback) {
-	var RTM_URL_RE_ = /http?\:\/\/www.rememberthemilk.com\//; 
+	var RTM_URL_RE_ = /https?\:\/\/www.rememberthemilk.com\//i; 
 
 	chrome.tabs.getAllInWindow(undefined, function(tabs) { 
 		for (var i = 0, tab; tab = tabs[i]; i++) { 
 			if (tab.url && RTM_URL_RE_.test(tab.url)) { 
-				callback(tab); 
+				console.log("found RTM tab");
+				callback(tab);
 				return; 
 			} 
 		} 
+		console.log("no tab found, opening new tab");
 		callback(null); 
 	}); 
 }
