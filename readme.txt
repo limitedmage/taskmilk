@@ -1,7 +1,7 @@
-ChromeMilk
-A Remember the Milk extension for Google Chrome.
+TaskMilk
+A Remember the Milk extension for Google Chrome
 
-ChromeMilk lets you access your tasks right from your Chrome toolbar.
+TaskMilk lets you access your tasks right from your Chrome toolbar.
 Clicking the button can show a popup with RTM's iGoogle, Gmail, or iPhone gadgets, or just open the RTM page when clicked.
 Button can also show the number of incomplete tasks due today, or a custom search.
 Go to the options page to customize the extension to your liking.
@@ -11,9 +11,10 @@ Known Issues
 * iPhone version doesn't log in and the password isn't obscured when using Tab to type the password. The workaround is to use the mouse to select the password input box instead. This is an issue of the Remember the Milk iPhone web app itself and I cannot fix this.
 * Sometimes authentication will fail. Erase all settings and try to authenticate again.
 
-This extension is still under heavy development and may be buggy. Please report any issues on the Google Code project page: http://code.google.com/p/chromemilk/issues/
-
 Changelog
+
+1.0 - 9 Dec 2011
+* Rebranded as TaskMilk as required by Google Chrome Web Store guidelines
 
 0.9.6 - 11 Mar 2010
 * New icon, by the amazing Camila González
@@ -54,13 +55,10 @@ Website: http://julianapena.com
 Twitter: @limitedmage
 
 Acknowledgements:
-* Remember the Milk http://rememberthemilk.com
-for their awesome service and open API
-* jQuery http://jquery.com
-for the amazing JavaScript library that makes Ajax super-simple
-* Gamila González http://aconitehikaru.deviantart.com/
-for the great icon (Icon under a Creative Commons Attribution-Attribution-Share Alike 3.0 License. http://creativecommons.org/licenses/by-sa/3.0/)
+* Remember the Milk http://rememberthemilk.com for their awesome service and open API
+* jQuery http://jquery.com for the amazing JavaScript library that makes Ajax super-simple
+* Gamila González http://aconitehikaru.deviantart.com/ for the great icon
 
-This extension is open source under the GPLv2.
-http://creativecommons.org/licenses/GPL/2.0/
-Source code is available at http://code.google.com/p/chromemilk/
+This extension is open source under the CC-BY-SA-NC.
+http://creativecommons.org/licenses/by-nc-sa/3.0/
+Source code is available at https://github.com/limitedmage/taskmilk
