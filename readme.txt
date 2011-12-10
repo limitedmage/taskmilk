@@ -15,6 +15,7 @@ Changelog
 
 1.0 - 9 Dec 2011
 * Rebranded from ChromeMilk to TaskMilk as required by Google Chrome Web Store guidelines
+* Gmail gadget is now default view
 
 0.9.6 - 11 Mar 2010
 * New icon, by the amazing Camila González

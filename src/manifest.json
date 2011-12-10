@@ -1,9 +1,9 @@
 {
-	"name": "ChromeMilk",
+	"name": "TaskMilk",
 	
-	"version": "0.9.6",
+	"version": "1.0",
 	
-	"description": "Access your Remember the Milk tasks right from your Google Chrome toolbar",
+	"description": "Access your Remember the Milk tasks right from your Google Chrome toolbar (formerly ChromeMilk)",
 	
 	"browser_action": {
 		"default_icon": "icon19.png",
