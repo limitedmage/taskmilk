@@ -15,7 +15,7 @@ body { font-family:sans-serif; background: #EDEDED;}
 
 <script>
 // default options
-var def_popup = 'igoogle';
+var def_popup = 'gmail';
 var def_badge = false;
 var def_style = 'today';
 
@@ -47,8 +47,8 @@ function loadOptions() {
 	popup = localStorage['popup'];
 	if (popup == 'undefined' || (popup != 'gmail' && popup != 'igoogle' && popup != 'iphone' && popup != 'page' && popup != 'mobile')) popup = def_popup;
 	
-	if (popup == 'igoogle') $('#igoogle')[0].checked = true;
-	else if (popup == 'gmail') $('#gmail')[0].checked = true;
+	if (popup == 'gmail') $('#gmail')[0].checked = true;
+	else if (popup == 'igoogle') $('#igoogle')[0].checked = true;
 	else if (popup == 'mobile') $('#mobile')[0].checked = true;
 	else if (popup == 'iphone') $('#iphone')[0].checked = true;
 	else if (popup == 'page') $('#page')[0].checked = true;
@@ -197,8 +197,8 @@ $(document).ready(function() {
 	
 	<h3>Popup type</h3>
 	<p>
-		<input type='radio' name='popup' value='igoogle' id='igoogle' /><label for='igoogle'>iGoogle <a href='http://www.rememberthemilk.com/services/igoogle/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='gmail' id='gmail' /><label for='gmail'>Gmail <a href='http://www.rememberthemilk.com/services/gmail/gadget/' target='_blank'>(more info)</a></label><br />
+		<input type='radio' name='popup' value='igoogle' id='igoogle' /><label for='igoogle'>iGoogle <a href='http://www.rememberthemilk.com/services/igoogle/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='mobile' id='mobile' /><label for='mobile'>Mobile <a href='https://www.rememberthemilk.com/services/mobile/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='iphone' id='iphone' /><label for='iphone'>iPhone (requires pro account) <a href='http://www.rememberthemilk.com/services/iphone/web/' target='_blank'>(more info)</a></label><br />
 		<input type='radio' name='popup' value='page' id='page' /><label for='page'>No popup, load Remember the Milk web page</label>

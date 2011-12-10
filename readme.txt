@@ -1,5 +1,5 @@
 TaskMilk
-A Remember the Milk extension for Google Chrome
+A Remember the Milk extension for Google Chrome (previously known as ChromeMilk)
 
 TaskMilk lets you access your tasks right from your Chrome toolbar.
 Clicking the button can show a popup with RTM's iGoogle, Gmail, or iPhone gadgets, or just open the RTM page when clicked.
@@ -14,7 +14,7 @@ Known Issues
 Changelog
 
 1.0 - 9 Dec 2011
-* Rebranded as TaskMilk as required by Google Chrome Web Store guidelines
+* Rebranded from ChromeMilk to TaskMilk as required by Google Chrome Web Store guidelines
 
 0.9.6 - 11 Mar 2010
 * New icon, by the amazing Camila González

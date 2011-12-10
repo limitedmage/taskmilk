@@ -91,8 +91,7 @@ function rtmGetFrob(successCallback, failCallback) {
 				successCallback(frob);
 			}
 		});
-	}
-	else {
+	} else {
 		console.log('using existing frob: ' + frob);
 		successCallback(frob);
 	}
