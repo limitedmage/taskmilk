@@ -1,14 +1,14 @@
 TaskMilk
-A Remember the Milk extension for Google Chrome (previously known as ChromeMilk)
+A Remember the Milk extension for Google Chrome™ (previously known as ChromeMilk)
 
 TaskMilk lets you access your tasks right from your Chrome toolbar.
-Clicking the button can show a popup with RTM's iGoogle, Gmail, or iPhone gadgets, or just open the RTM page when clicked.
+Clicking the button can show a popup with RTM's iGoogle™, Gmail™, Mobile, or iPhone gadgets, or just open the RTM page when clicked.
 Button can also show the number of incomplete tasks due today, or a custom search.
 Go to the options page to customize the extension to your liking.
 
 Known Issues
 
-* iPhone version doesn't log in and the password isn't obscured when using Tab to type the password. The workaround is to use the mouse to select the password input box instead. This is an issue of the Remember the Milk iPhone web app itself and I cannot fix this.
+* iPhone version doesn't log in and the password isn't obscured when using the tab key to type the password. The workaround is to use the mouse to select the password input box instead. This is an issue of the Remember the Milk iPhone web app itself and I cannot fix this.
 * Sometimes authentication will fail. Erase all settings and try to authenticate again.
 
 Changelog
