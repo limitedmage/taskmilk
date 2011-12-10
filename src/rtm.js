@@ -184,7 +184,7 @@ function rtmSign(args) {
 	arr.sort();
 
 	for (var i = 0; i < arr.length; i++) {
-		str+=arr[i]+args[arr[i]];
+		str += arr[i] + args[arr[i]];
 	}
 	var sig = String(MD5(str));
 
